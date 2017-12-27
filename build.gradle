@@ -2,9 +2,11 @@ buildscript {
 	ext {
 		springBootVersion = '1.4.4.RELEASE'
 	}
+
 	repositories {
 		mavenCentral()
 	}
+
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
@@ -14,15 +16,35 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
+def envVersion = System.getProperty('version')
+def buildVersion
+
+if (!envVersion || envVersion == 'null') {
+	buildVersion = version // this is from gradle.properties
+} else {
+	buildVersion = envVersion
+}
+
+print "Building as version ${buildVersion}"
+
 jar {
-	baseName = 'challenge'
-	version = '0.0.1-SNAPSHOT'
+	baseName = 'thousandeyes-techtest'
+	version = "${buildVersion}"
 }
 
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+	sourceCompatibility = '1.8'
+	targetCompatibility = '1.8'
+}
 
 repositories {
 	mavenCentral()
+}
+
+test {
+	systemProperties 'user.timezone': 'UTC'
 }
 
 dependencies {
