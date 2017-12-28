@@ -45,6 +45,9 @@ public class MessagesQueryHandler {
      * @param personId the person ID
      * @return a list of messages
      * @throws SQLException if the connection to the database is broken
+     * @should return a list of messages
+     * @should return an empty list when no records found
+     * @should return null when a SQLException is thrown
      */
     public List<Message> handle(int personId) {
         try {

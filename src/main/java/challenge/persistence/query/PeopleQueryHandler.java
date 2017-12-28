@@ -40,6 +40,9 @@ public class PeopleQueryHandler {
      * @param peopleQuery the query
      * @return a list of people
      * @throws SQLException if the connection to the database is broken
+     * @should return a list of people
+     * @should return an empty list when no records found
+     * @should return null when a SQLException is thrown
      */
     public List<Person> handle(PeopleQuery peopleQuery) {
         try {

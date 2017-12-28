@@ -31,6 +31,15 @@ public class FollowExistsQueryHandler {
         this.h2Client = h2Client;
     }
 
+    /**
+     * Checks if the followerPersonID user is following the personId user
+     * @param personId the person ID
+     * @param followerPersonId the follower ID
+     * @return whether the follower is following the user
+     * @should return true when the follow exists
+     * @should return false when the follow does not exist
+     * @should return null if a SQLException is thrown
+     */
     public Boolean handle(int personId, int followerPersonId) {
         try {
             Connection connection = h2Client.getConnection();

@@ -31,7 +31,7 @@ public class FollowProcessor {
      * @should return false if the follow already exists
      */
     public Boolean process(int userId, int followId) {
-        Boolean followExists = followExistsQueryHandler.handle(userId, followId);
+        Boolean followExists = followExistsQueryHandler.handle(followId, userId);
         if (followExists == null) {
             return null;
         }

@@ -28,6 +28,15 @@ public class FollowCommandHandler {
         this.h2Client = h2Client;
     }
 
+    /**
+     * Inserts a new follower into the database
+     * @param personId the ID of the person to be followed
+     * @param followerPersonId the ID of the follower
+     * @return whether the operation was successful
+     * @should return true if the follower is added
+     * @should return false if no rows were affected
+     * @should return null if there a SQLException was thrown
+     */
     public Boolean handle(int personId, int followerPersonId) {
         try {
             Connection connection = h2Client.getConnection();

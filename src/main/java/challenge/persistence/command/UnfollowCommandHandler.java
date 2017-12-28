@@ -27,6 +27,15 @@ public class UnfollowCommandHandler {
         this.h2Client = h2Client;
     }
 
+    /**
+     * Removes a follower from the database
+     * @param personId the ID of the person that is followed
+     * @param followerPersonId the ID of the follower
+     * @return whether the operation was successful
+     * @should return true if the follower is removd
+     * @should return false if no rows were affected
+     * @should return null if there a SQLException was thrown
+     */
     public Boolean handle(int personId, int followerPersonId) {
         try {
             Connection connection = h2Client.getConnection();

@@ -32,7 +32,7 @@ public class UnfollowProcessor {
      * @should return false if the follow does not exist
      */
     public Boolean process(int userId, int followId) {
-        Boolean followExists = followExistsQueryHandler.handle(userId, followId);
+        Boolean followExists = followExistsQueryHandler.handle(followId, userId);
         if (followExists == null) {
             return null;
         }
