@@ -9,9 +9,9 @@ Continuous Integration pipeline and followed the [12 Factor Application](https:/
 # Todo
 
 * Add unit tests for the following:
- * Processors
- * Commands
- * Queries
+    * Processors
+    * Commands
+    * Queries
 * Unfollow endpoint
 * Search query working for the messages endpoint
 * Add HTTP Basic auth to all the endpoints
