@@ -9,14 +9,14 @@ Continuous Integration pipeline and followed the [12 Factor Application](https:/
 # Todo
 
 * Add unit tests for the following:
-    * Processors
     * Commands
     * Queries
-* Unfollow endpoint
 * Search query working for the messages endpoint
 * Harden database access with a service user
 * Add HTTP Basic auth to all the endpoints
 * Write a pretty client
+* Add service logging
+* Add continuous integration
 
 Nice to have (do these in separate branches and submit without):
 * Distance to another user
