@@ -13,7 +13,7 @@ import javax.validation.Valid;
  * <h1>MessageController</h1>
  */
 @RestController
-public class MessageController {
+public class MessageController extends BaseController {
 
     private final GetMessagesProcessor getMessagesProcessor;
 

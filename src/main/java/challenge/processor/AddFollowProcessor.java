@@ -1,10 +1,11 @@
 package challenge.processor;
 
-import java.util.List;
+import org.springframework.stereotype.Service;
 
 /**
  * <h1>AddFollowProcessor</h1>
  */
+@Service
 public class AddFollowProcessor {
 
     /**
@@ -16,4 +17,11 @@ public class AddFollowProcessor {
     public boolean process(String userId, String followId) {
         return false;
     }
+
+
+    // Check if person is already following
+//    SELECT COUNT(*) FROM followers WHERE person_id = 1 AND follower_person_id = 10;
+//
+    // Insert new follower
+//    INSERT INTO followers(person_id, follower_person_id) VALUES(1, 2);
 }

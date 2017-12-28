@@ -1,8 +1,10 @@
 package challenge.controller;
 
 import challenge.constant.MimeType;
+import challenge.model.Person;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +21,7 @@ import java.util.List;
  * <h1>FollowerController</h1>
  */
 @RestController
-public class FollowerController {
+public class FollowerController extends BaseController {
 
     private final GetFollowersProcessor getFollowersProcessor;
     private final GetFollowingProcessor getFollowingProcessor;
@@ -44,13 +46,18 @@ public class FollowerController {
      * @param id the user ID
      * @return a HTTP application/json response with a list of users
      * @should return a 200 OK response if the user is found
-     * @should return a 404 Not Found response if the user ID does not exist
+     * @should return a 404 Not Found response if the user has no followers
+     * @should return a 503 Service Unavailable response if the result is null
      */
     @RequestMapping(value = "/{id}/followers", produces = MimeType.APPLICATION_JSON, method = RequestMethod.GET)
     public ResponseEntity getFollowers(@PathVariable @NotEmpty @Valid String id) {
-        List<String> followers = getFollowersProcessor.process(id);
+        List<Person> followers = getFollowersProcessor.process(id);
 
-        return followers == null
+        if (followers == null) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
+        }
+
+        return followers.isEmpty()
                 ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(followers);
     }
@@ -60,12 +67,18 @@ public class FollowerController {
      * @param id the user ID
      * @return a HTTP application/json response with a list of users
      * @should return a 200 OK response if the user is found
-     * @should return a 404 Not Found response if the user ID does not exist
+     * @should return a 404 Not Found response if the user has no followers
+     * @should return a 503 Service Unavailable response if the result is null
      */
     @RequestMapping(value = "/{id}/following", produces = MimeType.APPLICATION_JSON, method = RequestMethod.GET)
     public ResponseEntity getFollowing(@PathVariable @NotEmpty @Valid String id) {
-        List<String> following = getFollowingProcessor.process(id);
-        return following == null
+        List<Person> following = getFollowingProcessor.process(id);
+
+        if (following == null) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
+        }
+
+        return following.isEmpty()
                 ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(following);
     }
