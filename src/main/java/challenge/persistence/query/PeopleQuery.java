@@ -1,4 +1,4 @@
-package challenge.query;
+package challenge.persistence.query;
 
 /**
  * <h1>PeopleQuery</h1>

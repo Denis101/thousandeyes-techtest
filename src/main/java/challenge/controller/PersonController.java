@@ -93,15 +93,21 @@ public class PersonController {
      * @param followId the user ID to follow
      * @return a HTTP application/json response indicating success/failure
      * @should return a 200 OK response if the insert was a success
+     * @should return a 500 Bad Request response if the result was a failure
+     * @should return a 503 Service Unavailable response if the result is null
      */
     @RequestMapping(value = "/{id}/follow/{followId}", produces = MimeType.APPLICATION_JSON, method = RequestMethod.PUT)
     public ResponseEntity follow(@PathVariable("id") @NotEmpty @Valid int id,
                                  @PathVariable("followId") @NotEmpty @Valid int followId) {
-        boolean result = addFollowProcessor.process(id, followId);
+        Boolean result = addFollowProcessor.process(id, followId);
+
+        if (result == null) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
+        }
 
         return !result
-                ? ResponseEntity.notFound().build()
-                : ResponseEntity.ok("{ \"success\": true ");
+                ? ResponseEntity.badRequest().build()
+                : ResponseEntity.ok("{ \"success\": true }");
     }
 
     /**

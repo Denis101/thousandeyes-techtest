@@ -1,5 +1,7 @@
 package challenge.processor;
 
+import challenge.persistence.command.AddFollowCommandHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -8,20 +10,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class AddFollowProcessor {
 
+    private final AddFollowCommandHandler addFollowCommandHandler;
+
+    @Autowired
+    public AddFollowProcessor(AddFollowCommandHandler addFollowCommandHandler) {
+        this.addFollowCommandHandler = addFollowCommandHandler;
+    }
+
     /**
      * Process a request to add a new user followed to a user
      * @param userId the user ID
      * @param followId the ID of the new user to follow
      * @return whether the operation succeeded
      */
-    public boolean process(int userId, int followId) {
-        return false;
+    public Boolean process(int userId, int followId) {
+        return addFollowCommandHandler.handle(userId, followId);
     }
-
-
-    // Check if person is already following
-//    SELECT COUNT(*) FROM followers WHERE person_id = 1 AND follower_person_id = 10;
-//
-    // Insert new follower
-//    INSERT INTO followers(person_id, follower_person_id) VALUES(1, 2);
 }

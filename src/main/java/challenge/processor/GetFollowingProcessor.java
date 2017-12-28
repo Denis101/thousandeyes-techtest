@@ -1,8 +1,8 @@
 package challenge.processor;
 
 import challenge.model.Person;
-import challenge.query.GetFollowingQuery;
-import challenge.query.PeopleQueryHandler;
+import challenge.persistence.query.GetFollowingQuery;
+import challenge.persistence.query.PeopleQueryHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

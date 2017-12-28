@@ -1,7 +1,7 @@
 package challenge.processor;
 
 import challenge.model.Message;
-import challenge.query.MessagesQueryHandler;
+import challenge.persistence.query.MessagesQueryHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

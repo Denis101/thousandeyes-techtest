@@ -6,6 +6,7 @@ import challenge.processor.AddFollowProcessor;
 import challenge.processor.GetFollowersProcessor;
 import challenge.processor.GetFollowingProcessor;
 import challenge.processor.GetMessagesProcessor;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -137,6 +138,30 @@ public class PersonControllerTest {
 
         ResponseEntity response = controller.follow(1, 2);
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    /**
+     * @verifies return a 500 Bad Request response if the result was a failure
+     * @see PersonController#follow(int, int)
+     */
+    @Test
+    public void follow_shouldReturnA500BadRequestResponseIfTheResultWasAFailure() throws Exception {
+        when(mockAddFollowProcessor.process(1, 2)).thenReturn(false);
+
+        ResponseEntity response = controller.follow(1, 2);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    /**
+     * @verifies return a 503 Service Unavailable response if the result is null
+     * @see PersonController#follow(int, int)
+     */
+    @Test
+    public void follow_shouldReturnA503ServiceUnavailableResponseIfTheResultIsNull() throws Exception {
+        when(mockAddFollowProcessor.process(1, 2)).thenReturn(null);
+
+        ResponseEntity response = controller.follow(1, 2);
+        assertEquals(HttpStatus.SERVICE_UNAVAILABLE, response.getStatusCode());
     }
 
     /**

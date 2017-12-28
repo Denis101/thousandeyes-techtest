@@ -1,6 +1,6 @@
-package challenge.query;
+package challenge.persistence.query;
 
-import challenge.client.H2Client;
+import challenge.persistence.client.H2Client;
 import challenge.model.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
