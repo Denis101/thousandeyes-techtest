@@ -2,11 +2,10 @@ package challenge.controller;
 
 import challenge.model.Message;
 import challenge.model.Person;
-import challenge.processor.AddFollowProcessor;
+import challenge.processor.FollowProcessor;
 import challenge.processor.GetFollowersProcessor;
 import challenge.processor.GetFollowingProcessor;
 import challenge.processor.GetMessagesProcessor;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +33,7 @@ public class PersonControllerTest {
     private GetFollowingProcessor mockGetFollowingProcessor;
 
     @Mock
-    private AddFollowProcessor mockAddFollowProcessor;
+    private FollowProcessor mockAddFollowProcessor;
 
     @Mock
     private GetMessagesProcessor mockGetMessagesProcessor;

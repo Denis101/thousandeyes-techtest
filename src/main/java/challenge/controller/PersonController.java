@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import challenge.processor.AddFollowProcessor;
+import challenge.processor.FollowProcessor;
 import challenge.processor.GetFollowersProcessor;
 import challenge.processor.GetFollowingProcessor;
 
@@ -25,23 +25,23 @@ public class PersonController {
 
     private final GetFollowersProcessor getFollowersProcessor;
     private final GetFollowingProcessor getFollowingProcessor;
-    private final AddFollowProcessor addFollowProcessor;
+    private final FollowProcessor followProcessor;
     private final GetMessagesProcessor getMessagesProcessor;
 
     /**
      * @param getFollowersProcessor the processor for getting a list of followers for a given user
      * @param getFollowingProcessor the processor for getting a list of users followed for a given user
-     * @param addFollowProcessor the processor for adding a new user followed for a given user
+     * @param followProcessor the processor for adding a new user followed for a given user
      * @param getMessagesProcessor the processor for getting a list of messages for a given user
      */
     @Autowired
     public PersonController(final GetFollowersProcessor getFollowersProcessor,
                             final GetFollowingProcessor getFollowingProcessor,
-                            final AddFollowProcessor addFollowProcessor,
+                            final FollowProcessor followProcessor,
                             final GetMessagesProcessor getMessagesProcessor) {
         this.getFollowersProcessor = getFollowersProcessor;
         this.getFollowingProcessor = getFollowingProcessor;
-        this.addFollowProcessor = addFollowProcessor;
+        this.followProcessor = followProcessor;
         this.getMessagesProcessor = getMessagesProcessor;
     }
 
@@ -99,7 +99,7 @@ public class PersonController {
     @RequestMapping(value = "/{id}/follow/{followId}", produces = MimeType.APPLICATION_JSON, method = RequestMethod.PUT)
     public ResponseEntity follow(@PathVariable("id") @NotEmpty @Valid int id,
                                  @PathVariable("followId") @NotEmpty @Valid int followId) {
-        Boolean result = addFollowProcessor.process(id, followId);
+        Boolean result = followProcessor.process(id, followId);
 
         if (result == null) {
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);

@@ -14,6 +14,7 @@ Continuous Integration pipeline and followed the [12 Factor Application](https:/
     * Queries
 * Unfollow endpoint
 * Search query working for the messages endpoint
+* Harden database access with a service user
 * Add HTTP Basic auth to all the endpoints
 * Write a pretty client
 
