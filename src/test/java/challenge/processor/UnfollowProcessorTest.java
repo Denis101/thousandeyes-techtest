@@ -1,6 +1,6 @@
 package challenge.processor;
 
-import challenge.persistence.command.FollowCommandHandler;
+import challenge.persistence.command.UnfollowCommandHandler;
 import challenge.persistence.query.FollowExistsQueryHandler;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,11 +17,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Test for {@link FollowProcessor}
+ * Test for {@link UnfollowProcessor}
  */
 @RunWith(MockitoJUnitRunner.class)
-public class FollowProcessorTest {
-
+public class UnfollowProcessorTest {
     private static int PERSON_ID = 1;
     private static int FOLLOWER_ID = 2;
 
@@ -29,20 +28,20 @@ public class FollowProcessorTest {
     private FollowExistsQueryHandler mockFollowExistsQueryHandler;
 
     @Mock
-    private FollowCommandHandler mockFollowCommandHandler;
+    private UnfollowCommandHandler mockUnfollowCommandHandler;
 
-    private FollowProcessor processor;
+    private UnfollowProcessor processor;
 
     @Before
     public void setUp() {
-        processor = new FollowProcessor(
+        processor = new UnfollowProcessor(
                 mockFollowExistsQueryHandler,
-                mockFollowCommandHandler);
+                mockUnfollowCommandHandler);
     }
 
     /**
      * @verifies return null if the follow exists query failed
-     * @see FollowProcessor#process(int, int)
+     * @see UnfollowProcessor#process(int, int)
      */
     @Test
     public void process_shouldReturnNullIfTheFollowExistsQueryFailed() throws Exception {
@@ -50,47 +49,47 @@ public class FollowProcessorTest {
 
         assertNull(processor.process(PERSON_ID, FOLLOWER_ID));
         verify(mockFollowExistsQueryHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
-        verify(mockFollowCommandHandler, times(0)).handle(PERSON_ID, FOLLOWER_ID);
+        verify(mockUnfollowCommandHandler, times(0)).handle(PERSON_ID, FOLLOWER_ID);
     }
 
     /**
-     * @verifies return null if the add follow query failed
-     * @see FollowProcessor#process(int, int)
+     * @verifies return null if the unfollow query failed
+     * @see UnfollowProcessor#process(int, int)
      */
     @Test
-    public void process_shouldReturnNullIfTheAddFollowQueryFailed() throws Exception {
-        when(mockFollowExistsQueryHandler.handle(anyInt(), anyInt())).thenReturn(false);
-        when(mockFollowCommandHandler.handle(anyInt(), anyInt())).thenReturn(null);
+    public void process_shouldReturnNullIfTheUnfollowQueryFailed() throws Exception {
+        when(mockFollowExistsQueryHandler.handle(anyInt(), anyInt())).thenReturn(true);
+        when(mockUnfollowCommandHandler.handle(anyInt(), anyInt())).thenReturn(null);
 
         assertNull(processor.process(PERSON_ID, FOLLOWER_ID));
         verify(mockFollowExistsQueryHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
-        verify(mockFollowCommandHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
+        verify(mockUnfollowCommandHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
     }
 
     /**
      * @verifies return true if the add follow query was a success
-     * @see FollowProcessor#process(int, int)
+     * @see UnfollowProcessor#process(int, int)
      */
     @Test
-    public void process_shouldReturnTrueIfTheAddFollowQueryWasASuccess() throws Exception {
-        when(mockFollowExistsQueryHandler.handle(anyInt(), anyInt())).thenReturn(false);
-        when(mockFollowCommandHandler.handle(anyInt(), anyInt())).thenReturn(true);
+    public void process_shouldReturnTrueIfTheUnfollowQueryWasASuccess() throws Exception {
+        when(mockFollowExistsQueryHandler.handle(anyInt(), anyInt())).thenReturn(true);
+        when(mockUnfollowCommandHandler.handle(anyInt(), anyInt())).thenReturn(true);
 
         assertTrue(processor.process(PERSON_ID, FOLLOWER_ID));
         verify(mockFollowExistsQueryHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
-        verify(mockFollowCommandHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
+        verify(mockUnfollowCommandHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
     }
 
     /**
-     * @verifies return false if the follow already exists
-     * @see FollowProcessor#process(int, int)
+     * @verifies return false if the follow does not exist
+     * @see UnfollowProcessor#process(int, int)
      */
     @Test
-    public void process_shouldReturnFalseIfTheFollowAlreadyExists() throws Exception {
-        when(mockFollowExistsQueryHandler.handle(anyInt(), anyInt())).thenReturn(true);
+    public void process_shouldReturnFalseIfTheFollowDoesNotExist() throws Exception {
+        when(mockFollowExistsQueryHandler.handle(anyInt(), anyInt())).thenReturn(false);
 
         assertFalse(processor.process(PERSON_ID, FOLLOWER_ID));
         verify(mockFollowExistsQueryHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
-        verify(mockFollowCommandHandler, times(0)).handle(PERSON_ID, FOLLOWER_ID);
+        verify(mockUnfollowCommandHandler, times(0)).handle(PERSON_ID, FOLLOWER_ID);
     }
 }

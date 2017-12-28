@@ -1,6 +1,6 @@
 package challenge.processor;
 
-import challenge.persistence.command.AddFollowCommandHandler;
+import challenge.persistence.command.FollowCommandHandler;
 import challenge.persistence.query.FollowExistsQueryHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 public class FollowProcessor {
 
     private final FollowExistsQueryHandler followExistsQueryHandler;
-    private final AddFollowCommandHandler addFollowCommandHandler;
+    private final FollowCommandHandler followCommandHandler;
 
     @Autowired
-    public FollowProcessor(FollowExistsQueryHandler followExistsQueryHandler, AddFollowCommandHandler addFollowCommandHandler) {
+    public FollowProcessor(FollowExistsQueryHandler followExistsQueryHandler, FollowCommandHandler followCommandHandler) {
         this.followExistsQueryHandler = followExistsQueryHandler;
-        this.addFollowCommandHandler = addFollowCommandHandler;
+        this.followCommandHandler = followCommandHandler;
     }
 
     /**
@@ -37,7 +37,7 @@ public class FollowProcessor {
         }
 
         return !followExists
-                ? addFollowCommandHandler.handle(userId, followId)
+                ? followCommandHandler.handle(userId, followId)
                 : Boolean.FALSE;
     }
 }

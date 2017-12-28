@@ -11,12 +11,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * <h1>AddFollowCommandHandler</h1>
+ * <h1>FollowCommandHandler</h1>
  */
 @Service
-public class AddFollowCommandHandler {
+public class FollowCommandHandler {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AddFollowCommandHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FollowCommandHandler.class);
 
     private static final String QUERY = "INSERT INTO followers(person_id, follower_person_id)" +
             " VALUES(?, ?)";
@@ -24,7 +24,7 @@ public class AddFollowCommandHandler {
     private final H2Client h2Client;
 
     @Autowired
-    public AddFollowCommandHandler(H2Client h2Client) {
+    public FollowCommandHandler(H2Client h2Client) {
         this.h2Client = h2Client;
     }
 
