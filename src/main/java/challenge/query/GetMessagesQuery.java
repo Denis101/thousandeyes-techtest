@@ -1,6 +1,7 @@
 package challenge.query;
 
 import challenge.client.H2Client;
+import challenge.model.Message;
 import challenge.model.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,20 +16,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <h1>GetPeopleFollowedByPersonQuery</h1>
+ * <h1>GetMessagesQuery</h1>
  */
 @Service
-public class GetPeopleFollowedByPersonQuery {
+public class GetMessagesQuery {
 
     private static final Logger LOG = LoggerFactory.getLogger(GetFollowersForPersonQuery.class);
 
-    private static final String QUERY = "SELECT p.* FROM followers AS f" +
-            " JOIN people AS p ON (p.ID = f.person_id)" +
-            " WHERE f.follower_person_id = ?";
+    private static final String QUERY = "SELECT m.* FROM messages AS m" +
+            " JOIN people AS p ON (p.ID = m.person_id)" +
+            " WHERE m.person_id = ?";
 
     private static final String ID = "id";
-    private static final String HANDLE = "handle";
-    private static final String NAME = "name";
+    private static final String PERSON_ID = "person_id";
+    private static final String CONTENT = "content";
 
     private final H2Client h2Client;
 
@@ -36,17 +37,17 @@ public class GetPeopleFollowedByPersonQuery {
      * @param h2Client the database client
      */
     @Autowired
-    public GetPeopleFollowedByPersonQuery(H2Client h2Client) {
+    public GetMessagesQuery(H2Client h2Client) {
         this.h2Client = h2Client;
     }
 
     /**
-     * Gets a list of people who are followed by the person with the given ID
+     * Gets a list of messages of a person with the given ID
      * @param personId the person ID
-     * @return a list of people
+     * @return a list of messages
      * @throws SQLException if the connection to the database is broken
      */
-    public List<Person> handle(int personId) {
+    public List<Message> handle(int personId) {
         try {
             Connection connection = h2Client.getConnection();
 
@@ -55,17 +56,17 @@ public class GetPeopleFollowedByPersonQuery {
 
             ResultSet result = statement.executeQuery();
 
-            List<Person> people = new ArrayList<>();
+            List<Message> messages = new ArrayList<>();
             while (result.next()) {
-                Person person = new Person(
+                Message message = new Message(
                         result.getInt(ID),
-                        result.getString(HANDLE),
-                        result.getString(NAME));
+                        result.getInt(PERSON_ID),
+                        result.getString(CONTENT));
 
-                people.add(person);
+                messages.add(message);
             }
 
-            return people;
+            return messages;
         } catch (SQLException ex) {
             LOG.error("Failed to connect to database", ex);
             return null;

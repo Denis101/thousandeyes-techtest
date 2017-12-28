@@ -1,6 +1,8 @@
 package challenge.processor;
 
 import challenge.model.Message;
+import challenge.query.GetMessagesQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,17 +13,19 @@ import java.util.List;
 @Service
 public class GetMessagesProcessor {
 
+    private final GetMessagesQuery getMessagesQuery;
+
+    @Autowired
+    public GetMessagesProcessor(GetMessagesQuery getMessagesQuery) {
+        this.getMessagesQuery = getMessagesQuery;
+    }
+
     /**
      * Gets a list of messages for a given user
      * @param userId the user ID
      * @return a list of messages
      */
     public List<Message> process(String userId) {
-        return null;
+        return getMessagesQuery.handle(Integer.parseInt(userId));
     }
-
-    // Get messages query
-//    SELECT m.* FROM MESSAGES AS m
-//    JOIN PEOPLE AS p ON (p.ID = m.PERSON_ID)
-//    WHERE m.PERSON_ID = 1;
 }
