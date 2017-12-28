@@ -54,7 +54,7 @@ public class PersonController {
      * @should return a 503 Service Unavailable response if the result is null
      */
     @RequestMapping(value = "/{id}/followers", produces = MimeType.APPLICATION_JSON, method = RequestMethod.GET)
-    public ResponseEntity getFollowers(@PathVariable @NotEmpty @Valid String id) {
+    public ResponseEntity getFollowers(@PathVariable @NotEmpty @Valid int id) {
         List<Person> followers = getFollowersProcessor.process(id);
 
         if (followers == null) {
@@ -75,7 +75,7 @@ public class PersonController {
      * @should return a 503 Service Unavailable response if the result is null
      */
     @RequestMapping(value = "/{id}/following", produces = MimeType.APPLICATION_JSON, method = RequestMethod.GET)
-    public ResponseEntity getFollowing(@PathVariable @NotEmpty @Valid String id) {
+    public ResponseEntity getFollowing(@PathVariable @NotEmpty @Valid int id) {
         List<Person> following = getFollowingProcessor.process(id);
 
         if (following == null) {
@@ -92,13 +92,11 @@ public class PersonController {
      * @param id the user ID
      * @param followId the user ID to follow
      * @return a HTTP application/json response indicating success/failure
-     * @should return a 200 OK response if the user is found
-     * @should return a 404 Not Found response if the user ID does not exist
-     * @should return a 404 Not Found response if the followed user ID does not exist
+     * @should return a 200 OK response if the insert was a success
      */
     @RequestMapping(value = "/{id}/follow/{followId}", produces = MimeType.APPLICATION_JSON, method = RequestMethod.PUT)
-    public ResponseEntity follow(@PathVariable("id") @NotEmpty @Valid String id,
-                                 @PathVariable("followId") @NotEmpty @Valid String followId) {
+    public ResponseEntity follow(@PathVariable("id") @NotEmpty @Valid int id,
+                                 @PathVariable("followId") @NotEmpty @Valid int followId) {
         boolean result = addFollowProcessor.process(id, followId);
 
         return !result
@@ -116,7 +114,7 @@ public class PersonController {
      * @should return a 503 Service Unavailable response if the result is null
      */
     @RequestMapping(value = "/{id}/messages", produces = MimeType.APPLICATION_JSON, method = RequestMethod.GET)
-    public ResponseEntity getMessages(@PathVariable @NotEmpty @Valid String id,
+    public ResponseEntity getMessages(@PathVariable @NotEmpty @Valid int id,
                               @RequestParam(value = "search", required = false) @Valid String search) {
         List<Message> messages = getMessagesProcessor.process(id);
 

@@ -25,7 +25,7 @@ public class GetMessagesProcessor {
      * @param userId the user ID
      * @return a list of messages
      */
-    public List<Message> process(String userId) {
-        return getMessagesQuery.handle(Integer.parseInt(userId));
+    public List<Message> process(int userId) {
+        return getMessagesQuery.handle(userId);
     }
 }

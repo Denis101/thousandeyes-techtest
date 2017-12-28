@@ -14,7 +14,7 @@ public class AddFollowProcessor {
      * @param followId the ID of the new user to follow
      * @return whether the operation succeeded
      */
-    public boolean process(String userId, String followId) {
+    public boolean process(int userId, int followId) {
         return false;
     }
 

@@ -25,7 +25,7 @@ public class GetFollowingProcessor {
      * @param userId the user ID
      * @return the list of users followed
      */
-    public List<Person> process(String userId) {
-        return getPeopleFollowedByPersonQuery.handle(Integer.parseInt(userId));
+    public List<Person> process(int userId) {
+        return getPeopleFollowedByPersonQuery.handle(userId);
     }
 }
