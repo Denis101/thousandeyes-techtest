@@ -24,6 +24,8 @@ public class GetMessagesProcessor {
      * Gets a list of messages for a given user
      * @param userId the user ID
      * @return a list of messages
+     * @should return a list of messages
+     * @should return null if the query failed
      */
     public List<Message> process(int userId) {
         return messagesQueryHandler.handle(userId);
