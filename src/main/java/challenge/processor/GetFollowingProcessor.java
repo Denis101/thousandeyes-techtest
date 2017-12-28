@@ -25,6 +25,8 @@ public class GetFollowingProcessor {
      * Gets the list of users followed by a given user
      * @param userId the user ID
      * @return the list of users followed
+     * @should return a list of followers
+     * @should return null if the query failed
      */
     public List<Person> process(int userId) {
         return peopleQueryHandler.handle(new GetFollowingQuery(userId));

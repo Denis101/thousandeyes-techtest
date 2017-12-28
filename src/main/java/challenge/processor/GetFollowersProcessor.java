@@ -25,6 +25,8 @@ public class GetFollowersProcessor {
      * Gets the list of followers for a given user
      * @param userId the user ID
      * @return a list of followers
+     * @should return a list of followers
+     * @should return null if the query failed
      */
     public List<Person> process(int userId) {
         return peopleQueryHandler.handle(new GetFollowersQuery(userId));

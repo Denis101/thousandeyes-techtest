@@ -35,7 +35,7 @@ public class FollowProcessor {
         if (followExists == null) {
             return null;
         }
-        
+
         return !followExists
                 ? addFollowCommandHandler.handle(userId, followId)
                 : Boolean.FALSE;
