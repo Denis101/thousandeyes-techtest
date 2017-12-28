@@ -1,7 +1,8 @@
 package challenge.processor;
 
 import challenge.model.Person;
-import challenge.query.GetPeopleFollowedByPersonQuery;
+import challenge.query.GetFollowingQuery;
+import challenge.query.PeopleQueryHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +14,11 @@ import java.util.List;
 @Service
 public class GetFollowingProcessor {
 
-    private final GetPeopleFollowedByPersonQuery getPeopleFollowedByPersonQuery;
+    private final PeopleQueryHandler peopleQueryHandler;
 
     @Autowired
-    public GetFollowingProcessor(GetPeopleFollowedByPersonQuery getPeopleFollowedByPersonQuery) {
-        this.getPeopleFollowedByPersonQuery = getPeopleFollowedByPersonQuery;
+    public GetFollowingProcessor(PeopleQueryHandler peopleQueryHandler) {
+        this.peopleQueryHandler = peopleQueryHandler;
     }
 
     /**
@@ -26,6 +27,6 @@ public class GetFollowingProcessor {
      * @return the list of users followed
      */
     public List<Person> process(int userId) {
-        return getPeopleFollowedByPersonQuery.handle(userId);
+        return peopleQueryHandler.handle(new GetFollowingQuery(userId));
     }
 }

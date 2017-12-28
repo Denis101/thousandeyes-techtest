@@ -2,7 +2,6 @@ package challenge.query;
 
 import challenge.client.H2Client;
 import challenge.model.Message;
-import challenge.model.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <h1>GetMessagesQuery</h1>
+ * <h1>MessagesQueryHandler</h1>
  */
 @Service
-public class GetMessagesQuery {
+public class MessagesQueryHandler {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GetFollowersForPersonQuery.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GetFollowersQuery.class);
 
     private static final String QUERY = "SELECT m.* FROM messages AS m" +
             " JOIN people AS p ON (p.ID = m.person_id)" +
@@ -37,7 +36,7 @@ public class GetMessagesQuery {
      * @param h2Client the database client
      */
     @Autowired
-    public GetMessagesQuery(H2Client h2Client) {
+    public MessagesQueryHandler(H2Client h2Client) {
         this.h2Client = h2Client;
     }
 

@@ -15,16 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <h1>GetFollowersForPersonQuery</h1>
+ * <h1>PeopleQueryHandler</h1>
  */
 @Service
-public class GetFollowersForPersonQuery {
-
-    private static final Logger LOG = LoggerFactory.getLogger(GetFollowersForPersonQuery.class);
-
-    private static final String QUERY = "SELECT p.* FROM followers AS f" +
-                    " JOIN people AS p ON (p.ID = f.follower_person_id)" +
-                    " WHERE f.person_id = ?";
+public class PeopleQueryHandler {
+    private static final Logger LOG = LoggerFactory.getLogger(GetFollowersQuery.class);
 
     private static final String ID = "id";
     private static final String HANDLE = "handle";
@@ -36,22 +31,22 @@ public class GetFollowersForPersonQuery {
      * @param h2Client the database client
      */
     @Autowired
-    public GetFollowersForPersonQuery(H2Client h2Client) {
+    public PeopleQueryHandler(H2Client h2Client) {
         this.h2Client = h2Client;
     }
 
     /**
      * Gets a list of people who follow the person with the given ID
-     * @param personId the person ID
+     * @param peopleQuery the query
      * @return a list of people
      * @throws SQLException if the connection to the database is broken
      */
-    public List<Person> handle(int personId) {
+    public List<Person> handle(PeopleQuery peopleQuery) {
         try {
             Connection connection = h2Client.getConnection();
 
-            PreparedStatement statement = connection.prepareStatement(QUERY);
-            statement.setInt(1, personId);
+            PreparedStatement statement = connection.prepareStatement(peopleQuery.getQuery());
+            statement.setInt(1, peopleQuery.getPersonId());
 
             ResultSet result = statement.executeQuery();
 

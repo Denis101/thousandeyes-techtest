@@ -1,7 +1,7 @@
 package challenge.processor;
 
 import challenge.model.Message;
-import challenge.query.GetMessagesQuery;
+import challenge.query.MessagesQueryHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +13,11 @@ import java.util.List;
 @Service
 public class GetMessagesProcessor {
 
-    private final GetMessagesQuery getMessagesQuery;
+    private final MessagesQueryHandler messagesQueryHandler;
 
     @Autowired
-    public GetMessagesProcessor(GetMessagesQuery getMessagesQuery) {
-        this.getMessagesQuery = getMessagesQuery;
+    public GetMessagesProcessor(MessagesQueryHandler messagesQueryHandler) {
+        this.messagesQueryHandler = messagesQueryHandler;
     }
 
     /**
@@ -26,6 +26,6 @@ public class GetMessagesProcessor {
      * @return a list of messages
      */
     public List<Message> process(int userId) {
-        return getMessagesQuery.handle(userId);
+        return messagesQueryHandler.handle(userId);
     }
 }
