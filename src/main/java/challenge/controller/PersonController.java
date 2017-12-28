@@ -97,8 +97,8 @@ public class PersonController {
      * @should return a 404 Not Found response if the followed user ID does not exist
      */
     @RequestMapping(value = "/{id}/follow/{followId}", produces = MimeType.APPLICATION_JSON, method = RequestMethod.PUT)
-    public ResponseEntity follow(@PathVariable @NotEmpty @Valid String id,
-                                 @PathVariable @NotEmpty @Valid String followId) {
+    public ResponseEntity follow(@PathVariable("id") @NotEmpty @Valid String id,
+                                 @PathVariable("followId") @NotEmpty @Valid String followId) {
         boolean result = addFollowProcessor.process(id, followId);
 
         return !result
