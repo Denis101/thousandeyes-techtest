@@ -227,3 +227,5 @@ VALUES
     (5, 7),
     (2, 1),
     (10, 9);
+
+CALL FT_REINDEX();

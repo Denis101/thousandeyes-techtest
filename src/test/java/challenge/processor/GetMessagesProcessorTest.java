@@ -15,6 +15,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 /**
@@ -40,21 +41,21 @@ public class GetMessagesProcessorTest {
 
     /**
      * @verifies return a list of messages
-     * @see GetMessagesProcessor#process(int)
+     * @see GetMessagesProcessor#process(int, String)
      */
     @Test
     public void process_shouldReturnAListOfMessages() throws Exception {
-        when(mockMessagesQueryHandler.handle(anyInt())).thenReturn(messages);
-        assertEquals(messages, processor.process(1));
+        when(mockMessagesQueryHandler.handle(anyInt(), anyString())).thenReturn(messages);
+        assertEquals(messages, processor.process(1, ""));
     }
 
     /**
      * @verifies return null if the query failed
-     * @see GetMessagesProcessor#process(int)
+     * @see GetMessagesProcessor#process(int, String)
      */
     @Test
     public void process_shouldReturnNullIfTheQueryFailed() throws Exception {
-        when(mockMessagesQueryHandler.handle(anyInt())).thenReturn(null);
-        assertNull(processor.process(1));
+        when(mockMessagesQueryHandler.handle(anyInt(), anyString())).thenReturn(null);
+        assertNull(processor.process(1, ""));
     }
 }

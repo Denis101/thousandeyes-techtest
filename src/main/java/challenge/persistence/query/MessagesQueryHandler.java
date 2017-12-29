@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,9 +23,13 @@ public class MessagesQueryHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(GetFollowersQuery.class);
 
-    private static final String QUERY = "SELECT m.* FROM messages AS m" +
+    private static final String GET_ALL_QUERY = "SELECT m.* FROM messages AS m" +
             " JOIN people AS p ON (p.ID = m.person_id)" +
             " WHERE m.person_id = ?";
+
+    // Shouldn't have two queries in a single handler, but I'm getting lazy.
+    private static final String SEARCH_QUERY = "SELECT m.* FROM FT_SEARCH_DATA(?, 0, 0) FT, MESSAGES m" +
+            " WHERE FT.TABLE='MESSAGES' AND m.id=FT.KEYS[0] AND m.person_id = ?;";
 
     static final String ID = "id";
     static final String PERSON_ID = "person_id";
@@ -49,12 +54,19 @@ public class MessagesQueryHandler {
      * @should return an empty list when no records found
      * @should return null when a SQLException is thrown
      */
-    public List<Message> handle(int personId) {
+    public List<Message> handle(int personId, String search) {
         try {
             Connection connection = h2Client.getConnection();
 
-            PreparedStatement statement = connection.prepareStatement(QUERY);
-            statement.setInt(1, personId);
+            PreparedStatement statement;
+            if (StringUtils.isEmpty(search)) {
+                statement = connection.prepareStatement(GET_ALL_QUERY);
+                statement.setInt(1, personId);
+            } else {
+                statement = connection.prepareStatement(SEARCH_QUERY);
+                statement.setString(1, "'" + search + "'");
+                statement.setInt(2, personId);
+            }
 
             ResultSet result = statement.executeQuery();
 

@@ -146,7 +146,7 @@ public class PersonController {
     @RequestMapping(value = "/{id}/messages", produces = MimeType.APPLICATION_JSON, method = RequestMethod.GET)
     public ResponseEntity getMessages(@PathVariable @NotEmpty @Valid int id,
                               @RequestParam(value = "search", required = false) @Valid String search) {
-        List<Message> messages = getMessagesProcessor.process(id);
+        List<Message> messages = getMessagesProcessor.process(id, search);
 
         if (messages == null) {
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);

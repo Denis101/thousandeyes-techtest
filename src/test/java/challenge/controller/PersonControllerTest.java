@@ -171,7 +171,7 @@ public class PersonControllerTest {
      */
     @Test
     public void getMessages_shouldReturnA200OKResponseIfTheUserIsFound() throws Exception {
-        when(mockGetMessagesProcessor.process(1)).thenReturn(messages);
+        when(mockGetMessagesProcessor.process(1, "")).thenReturn(messages);
 
         ResponseEntity response = controller.getMessages(1, "");
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -193,7 +193,7 @@ public class PersonControllerTest {
      */
     @Test
     public void getMessages_shouldReturnA503ServiceUnavailableResponseIfTheResultIsNull() throws Exception {
-        when(mockGetMessagesProcessor.process(1)).thenReturn(null);
+        when(mockGetMessagesProcessor.process(1, "")).thenReturn(null);
 
         ResponseEntity response = controller.getMessages(1, "");
         assertEquals(HttpStatus.SERVICE_UNAVAILABLE, response.getStatusCode());

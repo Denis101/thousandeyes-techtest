@@ -48,7 +48,7 @@ public class MessagesQueryHandlerTest {
 
     /**
      * @verifies return a list of messages
-     * @see MessagesQueryHandler#handle(int)
+     * @see MessagesQueryHandler#handle(int, String)
      */
     @Test
     public void handle_shouldReturnAListOfMessages() throws Exception {
@@ -60,7 +60,7 @@ public class MessagesQueryHandlerTest {
         when(mockResultSet.getString(MessagesQueryHandler.CONTENT)).thenReturn(message.getContent());
 
         // Act
-        List<Message> result = handler.handle(1);
+        List<Message> result = handler.handle(1, "");
 
         // Assert
         assertFalse(result.isEmpty());
@@ -69,21 +69,21 @@ public class MessagesQueryHandlerTest {
 
     /**
      * @verifies return an empty list when no records found
-     * @see MessagesQueryHandler#handle(int)
+     * @see MessagesQueryHandler#handle(int, String)
      */
     @Test
     public void handle_shouldReturnAnEmptyListWhenNoRecordsFound() throws Exception {
         when(mockResultSet.next()).thenReturn(false);
-        assertTrue(handler.handle(1).isEmpty());
+        assertTrue(handler.handle(1, "").isEmpty());
     }
 
     /**
      * @verifies return null when a SQLException is thrown
-     * @see MessagesQueryHandler#handle(int)
+     * @see MessagesQueryHandler#handle(int, String)
      */
     @Test
     public void handle_shouldReturnNullWhenASQLExceptionIsThrown() throws Exception {
         when(mockResultSet.next()).thenThrow(new SQLException());
-        assertNull(handler.handle(1));
+        assertNull(handler.handle(1, ""));
     }
 }

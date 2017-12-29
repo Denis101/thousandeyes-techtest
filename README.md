@@ -13,6 +13,18 @@ You can access the Swagger docs by running the API locally and hitting the follo
 http://localhost:8080/swagger-ui.html
 ```
 
+### Get Messages
+
+Gets a list of messages for the given person
+```
+/v1/person/{id}/messages[?search={search}]
+```
+
+curl example:
+```
+curl http://localhost:8080/v1/person/1/messages?search=define
+```
+
 ### Get Followers
 
 Gets a list of followers for a given person

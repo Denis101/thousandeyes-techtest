@@ -1,3 +1,6 @@
+CREATE ALIAS IF NOT EXISTS FT_INIT FOR "org.h2.fulltext.FullText.init";
+CALL FT_INIT();
+
 DROP TABLE IF EXISTS people;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS followers;
@@ -14,6 +17,8 @@ CREATE TABLE messages (
     person_id NUMBER REFERENCES people (id),
     content VARCHAR
 );
+
+CALL FT_CREATE_INDEX('PUBLIC', 'MESSAGES', NULL);
 
 CREATE TABLE followers (
     id IDENTITY AUTO_INCREMENT,
