@@ -18,7 +18,9 @@ public class UnfollowCommandHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(FollowCommandHandler.class);
 
-    private static final String QUERY = "drop or something";
+    private static final String QUERY = "DELETE FROM followers" +
+            " WHERE person_id = ?" +
+            " AND follower_person_id = ?";
 
     private final H2Client h2Client;
 
