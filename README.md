@@ -75,7 +75,6 @@ curl -X DELETE http://localhost:8080/v1/person/1/follow/2
 
 # Todo
 
-* Search query working for the messages endpoint
 * Harden database access with a service user
 * Add HTTP Basic auth to all the endpoints
 * Write a pretty client
