@@ -26,9 +26,9 @@ public class MessagesQueryHandler {
             " JOIN people AS p ON (p.ID = m.person_id)" +
             " WHERE m.person_id = ?";
 
-    private static final String ID = "id";
-    private static final String PERSON_ID = "person_id";
-    private static final String CONTENT = "content";
+    static final String ID = "id";
+    static final String PERSON_ID = "person_id";
+    static final String CONTENT = "content";
 
     private final H2Client h2Client;
 

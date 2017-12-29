@@ -32,7 +32,7 @@ public class UnfollowCommandHandler {
      * @param personId the ID of the person that is followed
      * @param followerPersonId the ID of the follower
      * @return whether the operation was successful
-     * @should return true if the follower is removd
+     * @should return true if the follower is removed
      * @should return false if no rows were affected
      * @should return null if there a SQLException was thrown
      */

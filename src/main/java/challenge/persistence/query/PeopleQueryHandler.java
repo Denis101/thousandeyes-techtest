@@ -21,9 +21,9 @@ import java.util.List;
 public class PeopleQueryHandler {
     private static final Logger LOG = LoggerFactory.getLogger(GetFollowersQuery.class);
 
-    private static final String ID = "id";
-    private static final String HANDLE = "handle";
-    private static final String NAME = "name";
+    static final String ID = "id";
+    static final String HANDLE = "handle";
+    static final String NAME = "name";
 
     private final H2Client h2Client;
 

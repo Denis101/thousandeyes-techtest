@@ -9,7 +9,14 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
 /**
@@ -22,14 +29,17 @@ public class FollowCommandHandlerTest {
     private Connection mockConnection;
 
     @Mock
+    private PreparedStatement mockPreparedStatement;
+
+    @Mock
     private H2Client mockH2Client;
 
     private FollowCommandHandler handler;
 
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
         when(mockH2Client.getConnection()).thenReturn(mockConnection);
-
         handler = new FollowCommandHandler(mockH2Client);
     }
 
@@ -39,8 +49,8 @@ public class FollowCommandHandlerTest {
      */
     @Test
     public void handle_shouldReturnTrueIfTheFollowerIsAdded() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+        when(mockPreparedStatement.executeUpdate()).thenReturn(1);
+        assertTrue(handler.handle(1, 2));
     }
 
     /**
@@ -49,8 +59,8 @@ public class FollowCommandHandlerTest {
      */
     @Test
     public void handle_shouldReturnFalseIfNoRowsWereAffected() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+        when(mockPreparedStatement.executeUpdate()).thenReturn(0);
+        assertFalse(handler.handle(1, 2));
     }
 
     /**
@@ -59,7 +69,7 @@ public class FollowCommandHandlerTest {
      */
     @Test
     public void handle_shouldReturnNullIfThereASQLExceptionWasThrown() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+        when(mockPreparedStatement.executeUpdate()).thenThrow(new SQLException());
+        assertNull(handler.handle(1, 2));
     }
 }

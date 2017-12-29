@@ -10,10 +10,13 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -23,26 +26,28 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class PeopleQueryHandlerTest {
 
-    @Mock
-    Connection mockConnection;
+    private static final PeopleQuery TEST_QUERY = new PeopleQuery("test", 1);
 
     @Mock
-    H2Client mockH2Client;
+    private Connection mockConnection;
+
+    @Mock
+    private PreparedStatement mockPreparedStatement;
+
+    @Mock
+    private ResultSet mockResultSet;
+
+    @Mock
+    private H2Client mockH2Client;
 
     PeopleQueryHandler handler;
-    List<Person> people;
 
     @Before
-    public void setUp() {
-
-        //when(mockConnection.prepareStatement(anyString())).thenReturn()
+    public void setUp() throws SQLException {
+        when(mockPreparedStatement.executeQuery()).thenReturn(mockResultSet);
+        when(mockConnection.prepareStatement(anyString())).thenReturn(mockPreparedStatement);
         when(mockH2Client.getConnection()).thenReturn(mockConnection);
-
         handler = new PeopleQueryHandler(mockH2Client);
-
-        people = new ArrayList<>();
-        Person person = new Person(1, "test", "test");
-        people.add(person);
     }
 
     /**
@@ -51,9 +56,19 @@ public class PeopleQueryHandlerTest {
      */
     @Test
     public void handle_shouldReturnAListOfPeople() throws Exception {
-        List<Person> result = handler.handle(new PeopleQuery("test", 1));
+        // Arrange
+        Person person = new Person(1, "handle", "name");
+        when(mockResultSet.next()).thenReturn(true).thenReturn(false);
+        when(mockResultSet.getInt(PeopleQueryHandler.ID)).thenReturn(person.getId());
+        when(mockResultSet.getString(PeopleQueryHandler.HANDLE)).thenReturn(person.getHandle());
+        when(mockResultSet.getString(PeopleQueryHandler.NAME)).thenReturn(person.getName());
 
-        assertNotNull(result);
+        // Act
+        List<Person> result = handler.handle(TEST_QUERY);
+
+        // Assert
+        assertFalse(result.isEmpty());
+        assertEquals(person, result.get(0));
     }
 
     /**
@@ -62,8 +77,8 @@ public class PeopleQueryHandlerTest {
      */
     @Test
     public void handle_shouldReturnAnEmptyListWhenNoRecordsFound() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+        when(mockResultSet.next()).thenReturn(false);
+        assertTrue(handler.handle(TEST_QUERY).isEmpty());
     }
 
     /**
@@ -72,7 +87,7 @@ public class PeopleQueryHandlerTest {
      */
     @Test
     public void handle_shouldReturnNullWhenASQLExceptionIsThrown() throws Exception {
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+        when(mockResultSet.next()).thenThrow(new SQLException());
+        assertNull(handler.handle(TEST_QUERY));
     }
 }

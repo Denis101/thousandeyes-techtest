@@ -38,7 +38,7 @@ public class UnfollowProcessor {
         }
 
         return followExists
-                ? unfollowCommandHandler.handle(userId, followId)
+                ? unfollowCommandHandler.handle(followId, userId)
                 : Boolean.FALSE;
     }
 }

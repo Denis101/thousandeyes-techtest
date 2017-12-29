@@ -47,10 +47,11 @@ public class FollowProcessorTest {
     @Test
     public void process_shouldReturnNullIfTheFollowExistsQueryFailed() throws Exception {
         when(mockFollowExistsQueryHandler.handle(anyInt(), anyInt())).thenReturn(null);
+        when(mockFollowCommandHandler.handle(anyInt(), anyInt())).thenReturn(null);
 
         assertNull(processor.process(PERSON_ID, FOLLOWER_ID));
-        verify(mockFollowExistsQueryHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
-        verify(mockFollowCommandHandler, times(0)).handle(PERSON_ID, FOLLOWER_ID);
+        verify(mockFollowExistsQueryHandler, times(1)).handle(FOLLOWER_ID, PERSON_ID);
+        verify(mockFollowCommandHandler, times(0)).handle(FOLLOWER_ID, PERSON_ID);
     }
 
     /**
@@ -63,8 +64,8 @@ public class FollowProcessorTest {
         when(mockFollowCommandHandler.handle(anyInt(), anyInt())).thenReturn(null);
 
         assertNull(processor.process(PERSON_ID, FOLLOWER_ID));
-        verify(mockFollowExistsQueryHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
-        verify(mockFollowCommandHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
+        verify(mockFollowExistsQueryHandler, times(1)).handle(FOLLOWER_ID, PERSON_ID);
+        verify(mockFollowCommandHandler, times(1)).handle(FOLLOWER_ID, PERSON_ID);
     }
 
     /**
@@ -77,8 +78,8 @@ public class FollowProcessorTest {
         when(mockFollowCommandHandler.handle(anyInt(), anyInt())).thenReturn(true);
 
         assertTrue(processor.process(PERSON_ID, FOLLOWER_ID));
-        verify(mockFollowExistsQueryHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
-        verify(mockFollowCommandHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
+        verify(mockFollowExistsQueryHandler, times(1)).handle(FOLLOWER_ID, PERSON_ID);
+        verify(mockFollowCommandHandler, times(1)).handle(FOLLOWER_ID, PERSON_ID);
     }
 
     /**
@@ -90,7 +91,7 @@ public class FollowProcessorTest {
         when(mockFollowExistsQueryHandler.handle(anyInt(), anyInt())).thenReturn(true);
 
         assertFalse(processor.process(PERSON_ID, FOLLOWER_ID));
-        verify(mockFollowExistsQueryHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
-        verify(mockFollowCommandHandler, times(0)).handle(PERSON_ID, FOLLOWER_ID);
+        verify(mockFollowExistsQueryHandler, times(1)).handle(FOLLOWER_ID, PERSON_ID);
+        verify(mockFollowCommandHandler, times(0)).handle(FOLLOWER_ID, PERSON_ID);
     }
 }

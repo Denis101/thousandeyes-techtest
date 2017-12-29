@@ -48,8 +48,8 @@ public class UnfollowProcessorTest {
         when(mockFollowExistsQueryHandler.handle(anyInt(), anyInt())).thenReturn(null);
 
         assertNull(processor.process(PERSON_ID, FOLLOWER_ID));
-        verify(mockFollowExistsQueryHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
-        verify(mockUnfollowCommandHandler, times(0)).handle(PERSON_ID, FOLLOWER_ID);
+        verify(mockFollowExistsQueryHandler, times(1)).handle(FOLLOWER_ID, PERSON_ID);
+        verify(mockUnfollowCommandHandler, times(0)).handle(FOLLOWER_ID, PERSON_ID);
     }
 
     /**
@@ -62,8 +62,8 @@ public class UnfollowProcessorTest {
         when(mockUnfollowCommandHandler.handle(anyInt(), anyInt())).thenReturn(null);
 
         assertNull(processor.process(PERSON_ID, FOLLOWER_ID));
-        verify(mockFollowExistsQueryHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
-        verify(mockUnfollowCommandHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
+        verify(mockFollowExistsQueryHandler, times(1)).handle(FOLLOWER_ID, PERSON_ID);
+        verify(mockUnfollowCommandHandler, times(1)).handle(FOLLOWER_ID, PERSON_ID);
     }
 
     /**
@@ -76,8 +76,8 @@ public class UnfollowProcessorTest {
         when(mockUnfollowCommandHandler.handle(anyInt(), anyInt())).thenReturn(true);
 
         assertTrue(processor.process(PERSON_ID, FOLLOWER_ID));
-        verify(mockFollowExistsQueryHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
-        verify(mockUnfollowCommandHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
+        verify(mockFollowExistsQueryHandler, times(1)).handle(FOLLOWER_ID, PERSON_ID);
+        verify(mockUnfollowCommandHandler, times(1)).handle(FOLLOWER_ID, PERSON_ID);
     }
 
     /**
@@ -89,7 +89,7 @@ public class UnfollowProcessorTest {
         when(mockFollowExistsQueryHandler.handle(anyInt(), anyInt())).thenReturn(false);
 
         assertFalse(processor.process(PERSON_ID, FOLLOWER_ID));
-        verify(mockFollowExistsQueryHandler, times(1)).handle(PERSON_ID, FOLLOWER_ID);
-        verify(mockUnfollowCommandHandler, times(0)).handle(PERSON_ID, FOLLOWER_ID);
+        verify(mockFollowExistsQueryHandler, times(1)).handle(FOLLOWER_ID, PERSON_ID);
+        verify(mockUnfollowCommandHandler, times(0)).handle(FOLLOWER_ID, PERSON_ID);
     }
 }

@@ -37,7 +37,7 @@ public class FollowProcessor {
         }
 
         return !followExists
-                ? followCommandHandler.handle(userId, followId)
+                ? followCommandHandler.handle(followId, userId)
                 : Boolean.FALSE;
     }
 }
