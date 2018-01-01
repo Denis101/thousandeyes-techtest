@@ -75,8 +75,6 @@ curl -X DELETE http://localhost:8080/v1/person/1/follow/2
 
 # Todo
 
-* Harden database access with a service user
-* Add HTTP Basic auth to all the endpoints
 * Write a pretty client
 * Add service logging
 * Add continuous integration

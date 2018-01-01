@@ -1,5 +1,4 @@
 -- Cool kids store this in Vault and recycle their passwords :)
-DROP USER teuser IF EXISTS teuser;
 CREATE USER teuser PASSWORD 'abc123';
 
 CREATE ALIAS IF NOT EXISTS FT_INIT FOR "org.h2.fulltext.FullText.init";

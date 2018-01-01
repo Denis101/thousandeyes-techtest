@@ -49,7 +49,10 @@ public class PeopleQueryHandler {
             Connection connection = h2Client.getConnection();
 
             PreparedStatement statement = connection.prepareStatement(peopleQuery.getQuery());
-            statement.setInt(1, peopleQuery.getPersonId());
+
+            if (peopleQuery.getPersonId() >= 0) {
+                statement.setInt(1, peopleQuery.getPersonId());
+            }
 
             ResultSet result = statement.executeQuery();
 
