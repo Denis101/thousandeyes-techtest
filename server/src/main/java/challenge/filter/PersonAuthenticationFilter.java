@@ -4,8 +4,6 @@ import challenge.model.Person;
 import challenge.persistence.query.GetPersonQuery;
 import challenge.persistence.query.PeopleQueryHandler;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
