@@ -22,7 +22,7 @@ Gets a list of messages for the given person
 
 curl example:
 ```
-curl http://localhost:8080/v1/person/1/messages?search=define
+curl -H "Authorization: $(echo -n 'batman:batman' | openssl base64 | awk '{ print "Basic "$1 }')" http://localhost:8080/v1/person/1/messages?search=define
 ```
 
 ### Get Followers
@@ -34,7 +34,7 @@ Gets a list of followers for a given person
 
 curl example:
 ```
-curl http://localhost:8080/v1/person/1/followers
+curl -H "Authorization: $(echo -n 'batman:batman' | openssl base64 | awk '{ print "Basic "$1 }')" http://localhost:8080/v1/person/1/followers
 ```
 
 ### Get Following
@@ -46,7 +46,7 @@ Gets a list of people the given person is following
 
 curl example:
 ```
-curl http://localhost:8080/v1/person/1/following
+curl -H "Authorization: $(echo -n 'batman:batman' | openssl base64 | awk '{ print "Basic "$1 }')" http://localhost:8080/v1/person/1/following
 ```
 
 ### Follow
@@ -58,7 +58,7 @@ Set a person to follow a new person.
 
 curl example:
 ```
-curl -X PUT http://localhost:8080/v1/person/1/follow/2
+curl -X PUT -H "Authorization: $(echo -n 'batman:batman' | openssl base64 | awk '{ print "Basic "$1 }')" http://localhost:8080/v1/person/1/follow/2
 ```
 
 ### Unfollow
@@ -70,7 +70,7 @@ Remove a person from a given person's following list.
 
 curl example:
 ```
-curl -X DELETE http://localhost:8080/v1/person/1/follow/2
+curl -X DELETE -H "Authorization: $(echo -n 'batman:batman' | openssl base64 | awk '{ print "Basic "$1 }')" http://localhost:8080/v1/person/1/follow/2
 ```
 
 # Todo
