@@ -94,6 +94,10 @@ public class PersonAuthenticationFilter extends GenericFilterBean {
      * @throws UnsupportedEncodingException if the string encoding doesn't match the expected type
      */
     private String getCredentials(String authHeader) throws UnsupportedEncodingException {
+        if (StringUtils.isEmpty(authHeader)) {
+            return null;
+        }
+
         StringTokenizer st = new StringTokenizer(authHeader);
         if (!st.hasMoreTokens()) {
             return null;

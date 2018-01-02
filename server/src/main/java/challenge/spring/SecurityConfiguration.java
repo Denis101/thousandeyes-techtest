@@ -1,9 +1,6 @@
 package challenge.spring;
 
 import challenge.filter.PersonAuthenticationFilter;
-import challenge.model.Person;
-import challenge.persistence.query.GetAllPeopleQuery;
-import challenge.persistence.query.GetPersonQuery;
 import challenge.persistence.query.PeopleQueryHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +16,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-
-import javax.sql.DataSource;
-import java.util.List;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
 @ComponentScan(basePackages = {"challenge"})
@@ -88,5 +85,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         BasicAuthenticationEntryPoint bauth = new BasicAuthenticationEntryPoint();
         bauth.setRealmName(REALM);
         return bauth;
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
+            }
+        };
     }
 }
