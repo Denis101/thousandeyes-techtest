@@ -17,6 +17,7 @@ There a bunch of things I would like to do that I never had the time to, includi
 * Hardening the database access properly, so the REST API has only the access it needs
 * The authentication filter is a bit nasty, I feel like there's a better way to do this with Spring Security
 * Unit test coverage isn't as good as it should be. This always seems to be the case though..
+* Styling with SCSS and compiling as part of the webpack build
 
 ## API reference
 
