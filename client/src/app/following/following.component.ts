@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Person } from '../model/Person';
+import { PersonService } from '../service/person.service';
 
 @Component({
   selector: 'app-following',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./following.component.css']
 })
 export class FollowingComponent implements OnInit {
+  following: Person[];
 
-  constructor() { }
+  constructor(private personService: PersonService) { }
 
   ngOnInit() {
+    this.getFollowing();
   }
 
+  getFollowing(): void {
+    this.personService.getFollowing(parseInt(localStorage.getItem('id')))
+      .subscribe(f => this.following = f);
+  }
 }

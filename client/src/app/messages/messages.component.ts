@@ -17,7 +17,7 @@ export class MessagesComponent implements OnInit {
   }
 
   getMessages(): void {
-    this.personService.getMessages(1)
+    this.personService.getMessages(parseInt(localStorage.getItem('id')))
       .subscribe(m => this.messages = m);
   }
 

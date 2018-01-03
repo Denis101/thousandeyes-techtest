@@ -16,9 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
 @ComponentScan(basePackages = {"challenge"})
@@ -60,12 +57,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers("/h2-console/*").permitAll();
+                .antMatchers("/h2-console/*").permitAll();
 
         http.authorizeRequests()
-            .anyRequest().authenticated()
-            .and().httpBasic().realmName(REALM)
-            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .anyRequest().authenticated()
+                .and().httpBasic().realmName(REALM)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.csrf().disable();
         http.headers().frameOptions().disable();
@@ -85,16 +82,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         BasicAuthenticationEntryPoint bauth = new BasicAuthenticationEntryPoint();
         bauth.setRealmName(REALM);
         return bauth;
-    }
-
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
-            }
-        };
     }
 }

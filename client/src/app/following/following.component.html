@@ -1,3 +1,6 @@
-<p>
-  following works!
-</p>
+<h2>I'm Following</h2>
+<ul class="following">
+  <li *ngFor="let follow of following">  
+    <em>{{follow.handle}}</em> - {{follow.name}}
+  </li>
+</ul>

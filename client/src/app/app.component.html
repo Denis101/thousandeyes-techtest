@@ -1,9 +1,10 @@
 <main>
   <a routerLink="/home"><h1>{{title}}</h1></a>
+  <h4 *ngIf="username">Welcome, {{ username | uppercase }}.</h4>
   <nav>
-    <a routerLink="/messages">Messages</a>
-    <a routerLink="/followers">Followers</a>
-    <a routerLink="/following">Following</a>
+    <a routerLink="/messages">Messages ({{messageCount}})</a>
+    <a routerLink="/followers">Followers ({{followerCount}})</a>
+    <a routerLink="/following">Following ({{followingCount}})</a>
   </nav>
   <router-outlet></router-outlet>
 </main>

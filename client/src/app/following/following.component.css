@@ -1,0 +1,20 @@
+.following {
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+}
+
+.following li {
+    position: relative;
+    cursor: pointer;
+    background-color: #EEE;
+    margin: .7em;
+    padding: .5em;
+}
+
+.following li:hover {
+    color: #607D8B;
+    background-color: #DDD;
+    padding-left: 2em;
+    cursor: initial;
+}

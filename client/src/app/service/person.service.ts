@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
+
+import { environment } from '../../environments/environment';
 
 import { Person } from '../model/Person';
 import { Message } from '../model/Message';
@@ -15,13 +18,13 @@ export class PersonService {
 
   private readonly APPLICATION_JSON: string = "application/json";
 
-  private readonly PERSON_URL: string = 'http://localhost:8080/v1/person'; 
+  private readonly PERSON_URL: string = environment.personUrl; 
 
-  private readonly headers: HttpHeaders;
+  private headers: HttpHeaders;
 
-  constructor(private readonly http: HttpClient) {
+  constructor(private readonly http: HttpClient, private readonly router: Router) {
     this.headers = new HttpHeaders();
-    this.headers.append(this.CONTENT_TYPE_HEADER, this.APPLICATION_JSON);
+    this.headers = this.headers.append(this.CONTENT_TYPE_HEADER, this.APPLICATION_JSON);
   }
 
   public setCredentials(username: string, password: string) {
@@ -32,11 +35,11 @@ export class PersonService {
     const creds: string = `Basic ${btoa(`${username}:${password}`)}`;
 
     if (this.headers.has(this.AUTHORIZATION_HEADER)) {
-      this.headers.set(this.AUTHORIZATION_HEADER, creds);
+      this.headers = this.headers.set(this.AUTHORIZATION_HEADER, creds);
       return;
     }
 
-    this.headers.append(this.AUTHORIZATION_HEADER, creds);
+    this.headers = this.headers.append(this.AUTHORIZATION_HEADER, creds);
   }
 
   public getPerson(id: number): Observable<Person> {

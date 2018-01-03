@@ -1,3 +1,6 @@
-<p>
-  followers works!
-</p>
+<h2>My Followers</h2>
+<ul class="followers">
+  <li *ngFor="let follow of followers">  
+    <em>{{follow.handle}}</em> - {{follow.name}}
+  </li>
+</ul>

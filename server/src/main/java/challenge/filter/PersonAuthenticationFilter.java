@@ -62,6 +62,7 @@ public class PersonAuthenticationFilter extends GenericFilterBean {
         List<Person> people = peopleQueryHandler.handle(new GetPersonQuery(id));
         if (people == null || people.isEmpty()) {
             ((HttpServletResponse)response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            chain.doFilter(request, response);
             return;
         }
 
@@ -70,6 +71,7 @@ public class PersonAuthenticationFilter extends GenericFilterBean {
         String credentials = getCredentials(((HttpServletRequest)request).getHeader(AUTHORIZATION_HEADER));
         if (StringUtils.isEmpty(credentials)) {
             ((HttpServletResponse)response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            chain.doFilter(request, response);
             return;
         }
 
@@ -81,6 +83,7 @@ public class PersonAuthenticationFilter extends GenericFilterBean {
                 || StringUtils.isEmpty(password)
                 || !password.equals(person.getHandle())) {
             ((HttpServletResponse)response).setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            chain.doFilter(request, response);
             return;
         }
 
