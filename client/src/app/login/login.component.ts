@@ -9,7 +9,7 @@ import { PersonService } from '../service/person.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  @Input() private login: Login = new Login();
+  @Input() login: Login = new Login();
 
   private returnUrl: string;
 

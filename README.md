@@ -2,6 +2,19 @@
 
 A simple messaging REST API service written in Java 8.
 
+## Running
+
+### Prerequisites
+* java 8 JDK
+* gradle
+* node.js (to build the client)
+* docker
+* docker-compose
+
+Both dockerfiles currently assume fully built artifacts exist. You can build them by running `make` in the root directory.
+
+To run the full application, you can simply run `docker-compose up` in the root directory. This will build the client and server containers, which you can then access by navigating to `http://localhost` on your browser.
+
 ## Notes
 I built this app as if it was to be deployed and operated in a Production environment. Therefore have included a full
 Continuous Integration pipeline and followed the [12 Factor Application](https://12factor.net/) pattern as best as I could.
@@ -16,7 +29,7 @@ There a bunch of things I would like to do that I never had the time to, includi
 * Swagger behind an admin authenticated endpoint (you can access it with any person's credentials)
 * Hardening the database access properly, so the REST API has only the access it needs
 * The authentication filter is a bit nasty, I feel like there's a better way to do this with Spring Security
-* Unit test coverage isn't as good as it should be. This always seems to be the case though..
+* Unit test coverage isn't as good as it should be. This always seems to be the case though.. (no unit tests in client)
 * Styling with SCSS and compiling as part of the webpack build
 
 ## API reference
@@ -88,10 +101,5 @@ curl -X DELETE -H "Authorization: $(echo -n 'batman:batman' | openssl base64 | a
 
 # Todo
 
-* Write a pretty client
 * Add service logging
 * Add continuous integration
-
-Nice to have (do these in separate branches and submit without):
-* Distance to another user
-* Endpoint for a list of all users sorted by popularity (do this in a single SQL query)

@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  teserver:
+    ports:
+      - 8080:8080
+    build: ./server
+
+  teclient:
+    build: ./client
+    ports:
+      - 80:80

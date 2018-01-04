@@ -12,11 +12,11 @@ export class AppComponent implements OnInit  {
   private readonly USERNAME: string = 'username';
   private readonly PASSWORD: string = 'password';
 
-  private title: string = 'ThousandEyes Messenger';
-  private username: string;
-  private messageCount: number;
-  private followingCount: number;
-  private followerCount: number;
+  title: string = 'ThousandEyes Messenger';
+  username: string;
+  messageCount: number;
+  followingCount: number;
+  followerCount: number;
 
   constructor(private personService: PersonService) { }
 
