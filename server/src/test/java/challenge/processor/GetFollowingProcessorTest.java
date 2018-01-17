@@ -36,7 +36,7 @@ public class GetFollowingProcessorTest {
         processor = new GetFollowingProcessor(peopleQueryHandler);
 
         people = new ArrayList<>();
-        Person person = new Person(1, "test", "test");
+        Person person = new Person(1, "test", "test", null);
         people.add(person);
     }
 

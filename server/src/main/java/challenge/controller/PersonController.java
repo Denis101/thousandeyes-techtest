@@ -3,6 +3,10 @@ package challenge.controller;
 import challenge.constant.MimeType;
 import challenge.model.Message;
 import challenge.model.Person;
+import challenge.persistence.command.AddMessageCommandHandler;
+import challenge.persistence.query.GetFollowingQuery;
+import challenge.persistence.query.GetPersonQuery;
+import challenge.persistence.query.PeopleQueryHandler;
 import challenge.processor.*;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <h1>PersonController</h1>
@@ -25,6 +30,9 @@ public class PersonController {
     private final FollowProcessor followProcessor;
     private final UnfollowProcessor unfollowProcessor;
     private final GetMessagesProcessor getMessagesProcessor;
+    private final AddMessageCommandHandler addMessageCommandHandler;
+
+    private final PeopleQueryHandler peopleQueryHandler;
 
     /**
      * @param getFollowersProcessor the processor for getting a list of followers for a given user
@@ -38,12 +46,16 @@ public class PersonController {
                             final GetFollowingProcessor getFollowingProcessor,
                             final FollowProcessor followProcessor,
                             final UnfollowProcessor unfollowProcessor,
-                            final GetMessagesProcessor getMessagesProcessor) {
+                            final GetMessagesProcessor getMessagesProcessor,
+                            final AddMessageCommandHandler addMessageCommandHandler,
+                            final PeopleQueryHandler peopleQueryHandler) {
         this.getFollowersProcessor = getFollowersProcessor;
         this.getFollowingProcessor = getFollowingProcessor;
         this.followProcessor = followProcessor;
         this.unfollowProcessor = unfollowProcessor;
         this.getMessagesProcessor = getMessagesProcessor;
+        this.addMessageCommandHandler = addMessageCommandHandler;
+        this.peopleQueryHandler = peopleQueryHandler;
     }
 
     /**
@@ -155,5 +167,79 @@ public class PersonController {
         return messages.isEmpty()
                 ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(messages);
+    }
+
+    @RequestMapping(value = "/{id}/messages", produces = MimeType.APPLICATION_JSON, method = RequestMethod.POST)
+    public ResponseEntity sendMessage(@PathVariable @NotEmpty @Valid int id,
+                                      @RequestBody @NotEmpty @Valid String content) {
+        Boolean success = addMessageCommandHandler.handle(id, content);
+
+        if (success == null) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
+        }
+
+        return !success
+                    ? ResponseEntity.badRequest().build()
+                    : ResponseEntity.ok("{ \"success\": true }");
+    }
+
+    @RequestMapping(value = "/{id}/distance-to/{theirId}", produces = MimeType.APPLICATION_JSON, method = RequestMethod.GET)
+    public ResponseEntity distanceTo(@PathVariable @NotEmpty @Valid int id,
+                                     @PathVariable @NotEmpty @Valid int theirId) {
+        List<Person> myFollowing = peopleQueryHandler.handle(new GetFollowingQuery(id));
+        return ResponseEntity.ok(id != theirId
+                ? getHops(theirId, myFollowing, new ArrayList<>(Collections.singletonList(id)), 1, 0)
+                : 0);
+    }
+
+    private int getHops(int expectedId, List<Person> following, List<Integer> visited, int currentHops, int result) {
+        for (Person person : following) {
+            printAtDepth(person.toString(), currentHops);
+            if (person.getId() == expectedId) {
+                return currentHops;
+            }
+
+            if (visited.contains(person.getId())) {
+                continue;
+            }
+
+            visited.add(person.getId());
+            List<Person> personFollowing = peopleQueryHandler.handle(new GetFollowingQuery(person.getId()));
+            result = getHops(expectedId, personFollowing, visited, currentHops + 1, result);
+        }
+
+        return result;
+    }
+
+    private void printAtDepth(String content, int depth) {
+        for (int i = 0; i < depth; i++) {
+            System.out.printf(" ");
+        }
+        System.out.printf("%s :: %d ::\n", content, depth);
+    }
+
+    @RequestMapping(value = "/{id}/graph", produces = MimeType.APPLICATION_JSON, method = RequestMethod.GET)
+    public ResponseEntity graph(@PathVariable @NotEmpty @Valid int id) {
+        return ResponseEntity.ok(getGraph(peopleQueryHandler.handle(new GetPersonQuery(id)).get(0)));
+
+    }
+
+    private Person getGraph(Person person) {
+        ArrayList visited = new ArrayList<>(Collections.singletonList(person));
+        LinkedList<Person> queue = new LinkedList<>(Collections.singletonList(person));
+
+        while (queue.size() > 0) {
+            Person current = queue.poll();
+            current.setFollowing(peopleQueryHandler.handle(new GetFollowingQuery(current.getId())));
+
+            current.getFollowing().forEach(p -> {
+                if (!visited.contains(p.getId())) {
+                    visited.add(p.getId());
+                    queue.add(p);
+                }
+            });
+        }
+
+        return person;
     }
 }
