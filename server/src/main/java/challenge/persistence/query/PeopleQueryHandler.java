@@ -61,7 +61,8 @@ public class PeopleQueryHandler {
                 Person person = new Person(
                         result.getInt(ID),
                         result.getString(HANDLE),
-                        result.getString(NAME));
+                        result.getString(NAME),
+                        null);
 
                 people.add(person);
             }

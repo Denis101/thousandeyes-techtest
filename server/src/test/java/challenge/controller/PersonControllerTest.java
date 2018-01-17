@@ -50,10 +50,11 @@ public class PersonControllerTest {
                 mockGetFollowingProcessor,
                 mockFollowProcessor,
                 mockUnfollowProcessor,
-                mockGetMessagesProcessor);
+                mockGetMessagesProcessor,
+                null,null);
 
         people = new ArrayList<>();
-        Person person = new Person(1, "test", "test");
+        Person person = new Person(1, "test", "test", null);
         people.add(person);
 
         messages = new ArrayList<>();

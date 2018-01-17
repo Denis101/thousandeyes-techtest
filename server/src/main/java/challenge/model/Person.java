@@ -1,5 +1,7 @@
 package challenge.model;
 
+import java.util.List;
+
 /**
  * <h1>Person</h1>
  */
@@ -8,11 +10,13 @@ public class Person {
     private final int id;
     private final String handle;
     private final String name;
+    private List<Person> following;
 
-    public Person(final int id, final String handle, final String name) {
+    public Person(final int id, final String handle, final String name, List<Person> following) {
         this.id = id;
         this.handle = handle;
         this.name = name;
+        this.following = following;
     }
 
     /**
@@ -42,6 +46,14 @@ public class Person {
         return name;
     }
 
+    public List<Person> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<Person> following) {
+        this.following = following;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -51,7 +63,8 @@ public class Person {
 
         if (id != person.id) return false;
         if (handle != null ? !handle.equals(person.handle) : person.handle != null) return false;
-        return name != null ? name.equals(person.name) : person.name == null;
+        if (name != null ? !name.equals(person.name) : person.name != null) return false;
+        return following != null ? following.equals(person.following) : person.following == null;
     }
 
     @Override
@@ -59,6 +72,7 @@ public class Person {
         int result = id;
         result = 31 * result + (handle != null ? handle.hashCode() : 0);
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (following != null ? following.hashCode() : 0);
         return result;
     }
 
@@ -68,6 +82,7 @@ public class Person {
                 "id=" + id +
                 ", handle='" + handle + '\'' +
                 ", name='" + name + '\'' +
+                ", following=" + following +
                 '}';
     }
 }

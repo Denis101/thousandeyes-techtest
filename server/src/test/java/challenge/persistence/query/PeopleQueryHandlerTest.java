@@ -57,7 +57,7 @@ public class PeopleQueryHandlerTest {
     @Test
     public void handle_shouldReturnAListOfPeople() throws Exception {
         // Arrange
-        Person person = new Person(1, "handle", "name");
+        Person person = new Person(1, "handle", "name", null);
         when(mockResultSet.next()).thenReturn(true).thenReturn(false);
         when(mockResultSet.getInt(PeopleQueryHandler.ID)).thenReturn(person.getId());
         when(mockResultSet.getString(PeopleQueryHandler.HANDLE)).thenReturn(person.getHandle());

@@ -74,6 +74,15 @@ export class PersonService {
     );
   }
 
+  public addMessage(id: number, content: string): any {
+    console.log('world');
+    return this.http.post<any>(`${this.PERSON_URL}/${id}/messages`, content, {
+      headers: this.headers
+    }).pipe(
+      catchError(this.handleError<any>(`addMessage id=${id}`))
+    );
+  }
+
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       // TODO: send the error to remote logging infrastructure
