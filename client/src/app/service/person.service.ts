@@ -74,6 +74,14 @@ export class PersonService {
     );
   }
 
+  public getGraph(id: number): Observable<Person> {
+    return this.http.get<Person>(`${this.PERSON_URL}/${id}/graph`, {
+      headers: this.headers
+    }).pipe(
+      catchError(this.handleError<Person>(`getGraph id=${id}`))
+    );
+  }
+
   public addMessage(id: number, content: string): any {
     console.log('world');
     return this.http.post<any>(`${this.PERSON_URL}/${id}/messages`, content, {
