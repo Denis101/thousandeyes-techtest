@@ -10,16 +10,7 @@ VALUES
     (7, 'zod', 'Dru-Zod'),
     (8, 'spiderman', 'Peter Parker'),
     (9, 'ironman', 'Tony Stark'),
-    (10, 'profx', 'Charles Xavier'),
-    (11, 'profx', 'Charles Xavier'),
-    (12, 'profx', 'Charles Xavier'),
-    (13, 'profx', 'Charles Xavier'),
-    (14, 'profx', 'Charles Xavier'),
-    (15, 'profx', 'Charles Xavier'),
-    (16, 'profx', 'Charles Xavier'),
-    (17, 'profx', 'Charles Xavier'),
-    (18, 'profx', 'Charles Xavier');
-
+    (10, 'profx', 'Charles Xavier');
 -- Messages
 INSERT INTO messages (person_id, content)
 VALUES
@@ -233,14 +224,6 @@ VALUES
     (7, 10),
     (5, 7),
     (2, 1),
-    (10, 9),
-    (11, 1),
-    (12, 11),
-    (13, 12),
-    (14, 13),
-    (15, 14),
-    (16, 15),
-    (17, 16),
-    (18, 17);
+    (10, 9);
 
 CALL FT_REINDEX();

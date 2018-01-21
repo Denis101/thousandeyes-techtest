@@ -11,13 +11,15 @@ export class Node implements d3.SimulationNodeDatum {
     
     id: string;
     text: string;
+    delta: number;
     
     constructor(id: string, text: string) {
         this.id = id;
         this.text = text;
+        this.delta = Math.round(128 + ((parseInt(this.id) / 10) * 127));
     }
 
     get color() {
-        return 'rgb(255, 0, 0)';
+        return `rgb(80, ${this.delta}, ${this.delta})`;
     }
 }
