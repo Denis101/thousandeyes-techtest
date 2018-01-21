@@ -5,7 +5,7 @@ import { Link } from './Link';
 
 const FORCES = {
     LINKS: 1 / 5,
-    COLLISION: 1,
+    COLLISION: 100,
     CHARGE: -1000
 }
 
