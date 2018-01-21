@@ -12,6 +12,12 @@ import { FollowingComponent } from './following/following.component';
 import { MessagesComponent } from './messages/messages.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './service/auth.service';
+import { GraphComponent } from './graph/graph.component';
+import { NodeComponent } from './graph/node/node.component';
+import { LinkComponent } from './graph/link/link.component';
+import { D3Service } from './service/d3.service';
+import { DraggableDirective } from './directive/draggable.directive';
+import { ZoomableDirective } from './directive/zoom.directive';
 
 @NgModule({
   declarations: [
@@ -20,7 +26,12 @@ import { AuthService } from './service/auth.service';
     FollowersComponent,
     FollowingComponent,
     MessagesComponent,
-    LoginComponent
+    LoginComponent,
+    GraphComponent,
+    NodeComponent,
+    LinkComponent,
+    DraggableDirective,
+    ZoomableDirective
   ],
   imports: [
     BrowserModule,
@@ -31,7 +42,8 @@ import { AuthService } from './service/auth.service';
   providers: [
     HttpClient,
     AuthService,
-    PersonService
+    PersonService,
+    D3Service
   ],
   bootstrap: [AppComponent]
 })

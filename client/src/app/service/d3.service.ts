@@ -46,7 +46,7 @@ export class D3Service {
         d3element.call(d3.drag().on('start', started));
     }
 
-    getGraph(nodes: Node[], links: Link[], options: { width, height}) {
+    getGraph(nodes: Node[], links: Link[], options: { width, height }) {
         return new ForceDirectedGraph(nodes, links, options);
     }
 }

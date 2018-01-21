@@ -3,7 +3,7 @@ import { Link } from '../../model/d3/Link';
 
 @Component({
     selector: '[linkVisual]',
-    templateUrl: './link.component.ts',
+    templateUrl: './link.component.html',
     styleUrls: ['./link.component.css']
 })
 export class LinkComponent {

@@ -1,4 +1,4 @@
-import { EventEmitter } from '@angular/core/src/event_emitter';
+import { EventEmitter } from '@angular/core';
 import * as d3 from 'd3';
 import { Node } from './Node';
 import { Link } from './Link';
@@ -23,6 +23,21 @@ export class ForceDirectedGraph {
         this.initSimulation(options);
     }
 
+    connectNodes(source, target) {
+        let link;
+    
+        if (!this.nodes[source] || !this.nodes[target]) {
+          throw new Error('One of the nodes does not exist');
+        }
+    
+        link = new Link(source, target);
+        this.simulation.stop();
+        this.links.push(link);
+        this.simulation.alphaTarget(0.3).restart();
+    
+        this.initLinks();
+      }
+
     initNodes() {
         this.simulation.nodes(this.nodes);
     }
@@ -37,7 +52,9 @@ export class ForceDirectedGraph {
             const ticker = this.ticker;
 
             this.simulation = d3.forceSimulation()
-                .force('charge', d3.forceManyBody().strength(FORCES.CHARGE));
+                .force('charge', d3.forceManyBody().strength(FORCES.CHARGE))
+                .force('collide', d3.forceCollide().strength(FORCES.COLLISION)
+                    .radius(d => d['r'] + 5).iterations(2));
 
             this.simulation.on('tick', () => {
                 ticker.emit(this.simulation);
