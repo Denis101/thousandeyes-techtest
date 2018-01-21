@@ -36,11 +36,11 @@ export class GraphComponent {
     }
 
     renderFollowing(me) {
-        let queue = [() => ({ current: me, parent: null })];
+        let queue = [{ current: me, parent: null }];
         let visited = [me.id];
         
         while (queue.length > 0) {
-            const { current, parent } = queue.shift()();
+            const { current, parent } = queue.shift();
 
             const node = new Node(current.id, `${current.id}: ${current.handle}`);
             this.nodes.push(node);
@@ -52,7 +52,7 @@ export class GraphComponent {
             current.following.forEach(f => {
                 if (visited.indexOf(f.id) < 0) {
                     visited.push(f.id);
-                    queue.push(() => ({ current: f, parent: node }));
+                    queue.push({ current: f, parent: node });
                 }
             });
         }
