@@ -25,7 +25,23 @@ export class GraphComponent {
     }
 
     renderGraph(person) {
-        this.renderFollowing(person);
+        let queue = [{ current: person, parent: null }];
+
+        while (queue.length > 0) {
+            const { current, parent } = queue.shift();
+            const node = new Node(current.id, current.id == person.id
+                ? 'ME'
+                : `${current.id}: ${current.handle}`);
+            this.nodes.push(node);
+
+            if (parent) {
+                this.links.push(new Link(parent, node));
+            }
+
+            current.following && current.following.forEach(f => {
+                queue.push({ current: f, parent: node });
+            });
+        }
 
         this.graph = this.d3Service.getGraph(
             this.nodes,
@@ -33,29 +49,6 @@ export class GraphComponent {
             { width: 720, height: 480 });
 
         this.graph.initSimulation({ width: 720, height: 480 });
-    }
-
-    renderFollowing(me) {
-        let queue = [{ current: me, parent: null }];
-        let visited = [me.id];
-        
-        while (queue.length > 0) {
-            const { current, parent } = queue.shift();
-
-            const node = new Node(current.id, `${current.id}: ${current.handle}`);
-            this.nodes.push(node);
-
-            if (parent) {
-                this.links.push(new Link(parent, node));
-            }
-
-            current.following.forEach(f => {
-                if (visited.indexOf(f.id) < 0) {
-                    visited.push(f.id);
-                    queue.push({ current: f, parent: node });
-                }
-            });
-        }
     }
 
     private _options: { width, height } = { width: 800, height: 600 };
